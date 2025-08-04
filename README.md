@@ -157,18 +157,6 @@ The method generates synthetic samples that help balance the dataset bias. Resul
 - `train_classifier/results/`: Training results and model checkpoints
 - `runs/`: TensorBoard logs
 
-## Citation
-
-If you use this code in your research, please cite our paper:
-
-```bibtex
-@inproceedings{diffinject2024,
-  title={DiffInject: Training-free Content Injection for Dataset Debiasing},
-  author={Your Name and Co-authors},
-  booktitle={Conference Name},
-  year={2024}
-}
-```
 
 ## License
 
