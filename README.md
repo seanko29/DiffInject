@@ -21,6 +21,9 @@ cd train_classifier
 pip install -r requirements.txt
 ```
 
+## Pretrained Download
+You can download pretrained .pt files of ffhq and afhq in [here](https://drive.google.com/drive/folders/1FlU82BvemsKJhyqzOIRBWAlx9dzs31My?usp=drive_link).
+Place the checkpoints under `pretrained/`.
 
 ## Overview
 
