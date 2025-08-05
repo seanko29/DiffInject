@@ -2,11 +2,6 @@
 
 This guide will help you get started with DiffInject in under 30 minutes.
 
-## Prerequisites
-
-- Python 3.8 or higher
-- CUDA-capable GPU (recommended)
-- 8GB+ GPU memory (for 256x256 images)
 
 ## Step 1: Installation
 
@@ -39,10 +34,9 @@ pip install -e .
 ### Download Datasets
 Download one of the supported datasets:
 
-- **BFFHQ**: [Download Link](https://drive.google.com/file/d/1ZWWjXxcDVK_dATo3zbtHgYgEXn_NVrqm/view?usp=drive_link)
-- **CMNIST**: [Download Link](https://drive.google.com/file/d/1f4U7WPv0q_6TCilr4L1Ip-4WU8P5rXMq/view?usp=drive_link)
-- **CIFAR10C**: [Download Link](https://drive.google.com/file/d/1kOFjfhWRRzfgubCv5Ur9WFuT24qQNKn5/view?usp=drive_link)
-
+- **BFFHQ**: [Download Link]([https://drive.google.com/file/d/1ZWWjXxcDVK_dATo3zbtHgYgEXn_NVrqm/view?usp=drive_link](https://drive.google.com/file/d/1DuZkhQMstWk0nupeYzX9GeIGTAz7M04g/view?usp=drive_link))
+- **CMNIST**: [Download Link](https://drive.google.com/file/d/1ruoc6RC8Lm7QdItAz0pxL_yIkP4G37cV/view?usp=drive_link)
+- **DOGSnCATS** [Download Link]((https://drive.google.com/file/d/1DiepWrnFiDn8dzngpL7Mik849tygGlkf/view?usp=drive_link))
 ### Download Pretrained Models
 Download the appropriate pretrained diffusion model for your dataset:
 
