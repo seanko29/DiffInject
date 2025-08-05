@@ -1,7 +1,7 @@
 
-# DiffInject: Training-free Content Injection for Dataset Debiasing
+# Revisiting Debiasing Classifiers via Synthetic Data Generation using Diffusion-based Style Injection
 
-This repository contains the official implementation of **DiffInject**, a method for mitigating dataset bias through training-free content injection using diffusion models.
+This repository contains the official implementation of **Revisiting Debiasing Classifiers via Synthetic Data Generation using Diffusion-based Style Injection**, a method for mitigating dataset bias through training-free content injection using diffusion models.
 
 ## Overview
 
