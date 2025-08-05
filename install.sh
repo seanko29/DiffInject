@@ -68,19 +68,41 @@ fi
 echo "Upgrading pip and installing setuptools..."
 python3 -m pip install --upgrade pip setuptools wheel
 
-# Install PyTorch with CUDA support first
+# Install NumPy first to avoid compatibility issues
+echo "Installing NumPy first..."
+pip install numpy==1.24.4
+
+# Install PyTorch with CUDA support
 echo "Installing PyTorch with CUDA support..."
 pip install torch==2.0.1+cu118 torchvision==0.15.2+cu118 torchaudio==2.0.2+cu118 --index-url https://download.pytorch.org/whl/cu118
 
-# Install main requirements (excluding PyTorch)
+# Install main requirements (excluding PyTorch and NumPy)
 echo "Installing main requirements..."
-pip install -r requirements.txt
+# Create a temporary requirements file without PyTorch and NumPy
+grep -v "torch\|numpy" requirements.txt > requirements_temp.txt
+pip install -r requirements_temp.txt
+rm requirements_temp.txt
 
 # Install classifier training requirements (if directory exists)
 if [ -d "train_classifier" ]; then
     echo "Installing classifier training requirements..."
     cd train_classifier
-    pip install -r requirements.txt
+    
+                 # Install core scientific packages first
+             echo "Installing core scientific packages..."
+             pip install scipy==1.11.0
+             pip install scikit-learn==1.3.0
+             pip install scikit-image==0.21.0
+             pip install pandas==2.0.3
+             
+             # Create a temporary requirements file without problematic packages
+             grep -v "opencv-python\|numpy\|scipy\|scikit-learn\|scikit-image\|pandas" requirements.txt > requirements_temp.txt
+    pip install -r requirements_temp.txt
+    
+    # Install opencv-python separately with updated version
+    pip install opencv-python==4.11.0.86
+    
+    rm requirements_temp.txt
     cd ..
 else
     echo "⚠ train_classifier directory not found, skipping classifier requirements"
