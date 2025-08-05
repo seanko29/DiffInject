@@ -1,3 +1,5 @@
+---------------- install.sh ----------------------
+
 #!/bin/bash
 
 # DiffInject Installation Script
@@ -20,36 +22,69 @@ fi
 
 echo "✓ Python version check passed: $python_version"
 
+# Check if conda is available
+if command -v conda &> /dev/null; then
+    echo "✓ Conda detected: $(conda --version)"
+    read -p "Do you want to use conda environment? (y/n): " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        echo "Creating conda environment..."
+        conda create -n diffinject python=3.11 -y
+        # conda activate 대신 source 사용
+        source activate diffinject
+        echo "✓ Conda environment created and activated"
+    fi
+fi
+
 # Check if CUDA is available (optional but recommended)
 if command -v nvidia-smi &> /dev/null; then
-    echo "✓ CUDA detected: $(nvidia-smi --query-gpu=name --format=csv,noheader,nounits | head -1)"
+    cuda_version=$(nvidia-smi --query-gpu=driver_version --format=csv,noheader,nounits | head -1)
+    echo "✓ CUDA detected: Driver version $cuda_version"
+    echo "  GPU: $(nvidia-smi --query-gpu=name --format=csv,noheader,nounits | head -1)"
+    
+    # Check CUDA compatibility
+    if [[ "$cuda_version" < "11.0" ]]; then
+        echo "⚠ Warning: CUDA driver version $cuda_version might be too old for PyTorch 2.0.1"
+        echo "  Consider updating your CUDA driver or using CPU-only PyTorch"
+    fi
 else
     echo "⚠ CUDA not detected. GPU acceleration will not be available."
+    echo "  Consider installing CPU-only PyTorch: pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu"
 fi
 
-# Create virtual environment (optional)
-read -p "Do you want to create a virtual environment? (y/n): " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    echo "Creating virtual environment..."
-    python3 -m venv diffinject_env
-    source diffinject_env/bin/activate
-    echo "✓ Virtual environment created and activated"
+# Create virtual environment (if not using conda)
+if ! command -v conda &> /dev/null || [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    read -p "Do you want to create a virtual environment? (y/n): " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        echo "Creating virtual environment..."
+        python3.11 -m venv diffinject_env
+        source diffinject_env/bin/activate
+        echo "✓ Virtual environment created and activated"
+    fi
 fi
 
-# Upgrade pip
-echo "Upgrading pip..."
-python3 -m pip install --upgrade pip
+# Upgrade pip and install setuptools
+echo "Upgrading pip and installing setuptools..."
+python3 -m pip install --upgrade pip setuptools wheel
 
-# Install main requirements
+# Install PyTorch with CUDA support first
+echo "Installing PyTorch with CUDA support..."
+pip install torch==2.0.1+cu118 torchvision==0.15.2+cu118 torchaudio==2.0.2+cu118 --index-url https://download.pytorch.org/whl/cu118
+
+# Install main requirements (excluding PyTorch)
 echo "Installing main requirements..."
 pip install -r requirements.txt
 
-# Install classifier training requirements
-echo "Installing classifier training requirements..."
-cd train_classifier
-pip install -r requirements.txt
-cd ..
+# Install classifier training requirements (if directory exists)
+if [ -d "train_classifier" ]; then
+    echo "Installing classifier training requirements..."
+    cd train_classifier
+    pip install -r requirements.txt
+    cd ..
+else
+    echo "⚠ train_classifier directory not found, skipping classifier requirements"
+fi
 
 # Install the package in development mode
 echo "Installing DiffInject package..."
