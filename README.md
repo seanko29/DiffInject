@@ -3,6 +3,25 @@
 
 This repository contains the official implementation of **Revisiting Debiasing Classifiers via Synthetic Data Generation using Diffusion-based Style Injection**, a method for mitigating dataset bias through training-free content injection using diffusion models.
 
+
+## Installation
+
+### Requirements
+- Python 3.8+
+- PyTorch 2.0.1+
+- CUDA 11.7+ (for GPU acceleration)
+
+### Setup
+```bash
+# Install main dependencies
+pip install -r requirements.txt
+
+# Install classifier training dependencies
+cd train_classifier
+pip install -r requirements.txt
+```
+
+
 ## Overview
 
 DiffInject addresses dataset bias by:
@@ -49,22 +68,6 @@ python train_classifier.py --dataset <dataset_name> --pct <percentage> --synthet
 
 This retrains the classifier on the combined original dataset and synthetic samples to create a debiased model.
 
-## Installation
-
-### Requirements
-- Python 3.8+
-- PyTorch 2.0.1+
-- CUDA 11.7+ (for GPU acceleration)
-
-### Setup
-```bash
-# Install main dependencies
-pip install -r requirements.txt
-
-# Install classifier training dependencies
-cd train_classifier
-pip install -r requirements.txt
-```
 
 ## Datasets
 
